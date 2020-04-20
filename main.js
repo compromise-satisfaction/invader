@@ -4,6 +4,8 @@ function Images(width,height){
   Load(width,height);
 }
 
+var Kazu_def = 108;
+
 function Load(width,height){
   var game = new Core(width, height);
 
@@ -33,7 +35,7 @@ function Load(width,height){
       j = 0;
       k = 0;
 
-      for (var i = 0; i < 55; i++) {
+      for (var i = 0; i < Kazu_def; i++) {
         Teki[i] = new Entity();
         Teki[i]._element = document.createElement("img");
         Teki[i].title = "敵";
@@ -137,8 +139,22 @@ function Load(width,height){
           SE1.play();
         }
         if(game.input.down){
-          game.fps = 20;
-          //game.replaceScene(Newscene());
+          switch (Kazu_def) {
+            case 108:
+              Kazu_def = 54;
+              break;
+            case 54:
+              Kazu_def = 5;
+              break;
+            case 5:
+              Kazu_def = 1;
+              break;
+            default:
+              Kazu_def = 108;
+              break;
+          }
+          BGM.pause();
+          game.replaceScene(Newscene());
         }
       }
 
