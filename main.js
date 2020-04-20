@@ -137,7 +137,7 @@ function Load(width,height){
           SE1.play();
         }
         if(game.input.down){
-          game.fps += 10;
+          game.fps = 20;
           //game.replaceScene(Newscene());
         }
       }
