@@ -16,7 +16,7 @@ function Load(width,height){
 
       var Background = new Entity();
       Background._element = document.createElement("img");
-      Background._element.src = "空.png";
+      Background._element.src = "カットイン.gif";
       Background.width = width;
       Background.height = height;
       scene.addChild(Background);
