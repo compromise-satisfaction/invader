@@ -33,7 +33,7 @@ function Load(width,height){
       j = 0;
       k = 0;
 
-      for (var i = 0; i < 5; i++) {
+      for (var i = 0; i < 55; i++) {
         Teki[i] = new Entity();
         Teki[i]._element = document.createElement("img");
         Teki[i].title = "敵";
