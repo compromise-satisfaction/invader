@@ -50,6 +50,15 @@ function Load(width,height){
         scene.addChild(Teki[i]);
       }
 
+      var BGM_start = 0;
+
+      var BGM = document.createElement("audio");
+
+      BGM.addEventListener("ended",function(e){
+        BGM.currentTime = BGM_start;
+        BGM.play();
+      });
+
       Tama.addEventListener("enterframe",function(){
         Tama.y -= width/9;
       })
@@ -100,6 +109,9 @@ function Load(width,height){
                 Gameclear._element.src = "クリア.png";
                 Gameclear.width = width;
                 Gameclear.height = height;
+                BGM_start = 1.541
+                BGM.src = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/勝訴！～初めての勝利.wav";
+                BGM.play();
                 scene.addChild(Gameclear);
               }
             }
@@ -115,12 +127,18 @@ function Load(width,height){
           if(Kinaimodo.x!=width-Kinaimodo.width) Kinaimodo.x += width/9;
         }
         if(game.input.up&&Tama.y<0){
+          if(BGM_start==0){
+            BGM_start = 4.555;
+            BGM.src = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/異議あり！～検事2.wav";
+            BGM.play();
+          }
           Tama.x = Kinaimodo.x;
           Tama.y = Kinaimodo.y - Tama.height;
           SE1.play();
         }
         if(game.input.down){
-          game.replaceScene(Newscene());
+          game.fps += 10;
+          //game.replaceScene(Newscene());
         }
       }
 
