@@ -25,11 +25,21 @@ function Load(width,height){
 
       var Tama = new Entity();
       Tama._element = document.createElement("img");
-      Tama._element.src = "りんご.gif";
       Tama.width = width/9;
       Tama.height = width/9;
       Tama.y　= -width/9;
       scene.addChild(Tama);
+
+      var Item = new Entity();
+      Item._element = document.createElement("img");
+      Item._element.src = "写輪眼.png";
+      Item.width = width/9;
+      Item.height = width/9;
+      Item.y　= height;
+      scene.addChild(Item);
+
+      var Tama_image = ["りんご.gif","オシリスの天空竜.gif","スマホ1.gif","トライセル.gif","学生証.png","強欲な壺.png","照準.png","調合したハーブ.png","爆弾.png","弁護士バッジ.gif"];
+      var Image_i = 0;
 
       Teki = [];
       j = 0;
@@ -52,6 +62,15 @@ function Load(width,height){
         scene.addChild(Teki[i]);
       }
 
+
+      var Aka = rand(Teki.length);
+      Teki[Aka]._element.src = "インベーダー赤.gif";
+      Teki[Aka].title = "写輪眼";
+
+      function rand(n) {
+        return Math.floor(Math.random() * (n));
+      }
+
       var BGM_start = 0;
 
       var BGM = document.createElement("audio");
@@ -63,6 +82,7 @@ function Load(width,height){
 
       Tama.addEventListener("enterframe",function(){
         Tama.y -= width/9;
+        Item.y += width/18;
       })
 
       var Kinaimodo = new Entity();
@@ -91,17 +111,33 @@ function Load(width,height){
       var SE1 = document.createElement("audio");
       SE1.src = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/銃声.wav";
 
+      var SE2 = document.createElement("audio");
+      SE2.src = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/効果音/ドウイツトミトメル.wav";
+
+      var KANTUUSINAI = true;
+
       Background.addEventListener("enterframe",function(){
         idou_E();
+        if(Item.x==Kinaimodo.x&&Item.y==Kinaimodo.y){
+          Kinaimodo._element.src = "飛行機赤.png";
+          Kinaimodo.title = "貫通";
+          Item.y = height;
+          SE2.play();
+        }
         for (var i = 0; i < Teki.length; i++) {
           if(Tama.x==Teki[i].x&&Tama.y==Teki[i].y){
             for (var k = 0; k < Teki.length; k++) {
               if(Teki[k].title == "爆殺") scene.removeChild(Teki[k]);
             }
-            if(Teki[i].title=="敵"){
+            if(Teki[i].title!="爆殺"){
+              if(Teki[i].title=="写輪眼"){
+                Item.x = Teki[i].x;
+                Item.y = Teki[i].y;
+              }
               Teki[i].title = "爆殺";
               Teki[i]._element.src = "爆発.gif";
-              Tama.y　= -width/9;
+              if(KANTUUSINAI) Tama.y　= -width/9;
+
               SE.play();
               Kazu--;
               Text._element.textContent = "残り" + Kazu;
@@ -134,8 +170,12 @@ function Load(width,height){
             BGM.src = "https://raw.githubusercontent.com/compromise-satisfaction/Saved/master/音/BGM/異議あり！～検事2.wav";
             BGM.play();
           }
+          Tama._element.src = Tama_image[Image_i];
+          Image_i++;
+          if(Image_i==Tama_image.length) Image_i = 0;
           Tama.x = Kinaimodo.x;
           Tama.y = Kinaimodo.y - Tama.height;
+          if(Kinaimodo.title=="貫通"&&KANTUUSINAI) KANTUUSINAI = false;
           SE1.play();
         }
         if(game.input.down){
